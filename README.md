@@ -38,6 +38,66 @@ blogd tx blog create-post bobTitle3 bobBody3 $(blogd keys show reza -a) --from b
 
 
 ---------------
+### Run the following commands to generate proto files and lint them:
+
+```bash
+make proto-gen
+make proto-lint
+```
+blog/scripts/protocgen.sh
+
+
+--------------
+## Tasks
+
+1. The blog module does not show up in `blogd query` and `blogd tx` commands. Wire the blog module into the app so that it can be queried and transactions can be made.
+    - [x] Add the blog module to the `app/app.go` file.
+    - [x] Add the blog module to the `app/app_config.go` file.
+
+2. Whenever we create a new blog post, it overwrites an existing post. Fix this issue so that we can create multiple posts.
+   - [x] Add the `k.SetPostCount(ctx, count+1)` function in `blog/x/blog/keeper/post.go`.
+
+3. Updating a post doesn't work as expected. Figure out why and fix it.
+   - [x] Remove the `PoslKey = "Posl/value/"`  in `key.go` file.
+
+4. Add a `created_at` and `last_updated_at` timestamp field to the blog post type, and update it with the current block time accordingly whenever a post is created or updated.
+    - [x] Add the `CreatedAt` and `LastUpdatedAt` fields to the `Post` struct in `blog/proto/blog/blog/post.proto`.
+    - [x] Update the `CreatePost` and `UpdatePost` functions.
+    - [x] Generate proto files again.
+
+5. Bonus: Implement a grant authorization mechanism where a post creator can allow other addresses to update or delete their post (e.g. Bob can update and delete Alice's blog posts).
+    - [x] Add the `editor_public_keys` fields to the `Post` struct in `blog/proto/blog/blog/post.proto`.
+    - [x] Update the `CreatePost` and `UpdatePost` and `DeletePost` functions.
+    - [x] `autocli.go` file updated to accept multiple public keys for `editor_public_keys`.
+    - [x] in `config.yml` Reza user added to the `genesis` section.
+    - [x] in `color.go` for better visibility in stdout, added color to the output.
+    - [x] Generate proto files again.
+
+
+
+
+-------------------
+## 📝 Todo List
+
+#### Development Tasks
+-   [ ] Implement unit tests with proper coverage
+-   [ ] Add end-to-end (e2e) tests and use [SimApp](https://docs.cosmos.network/v0.52/learn/advanced/simulation)
+-   [ ] Set up Docker or Kubernetes containerization
+-   [ ] Configure GitHub Actions for CI/CD
+-   [ ] Implement git hooks
+-   [ ] Add comprehensive logging system ( [Telemetry](https://docs.cosmos.network/main/learn/advanced/telemetry) )
+-   [ ] Implement event publishing mechanism ( [ctx.EventManager().EmitEvent](https://docs.cosmos.network/main/learn/advanced/events) )
+
+
+#### Security Tasks
+- [ ] Conduct a thorough security audit of the codebase
+- [ ] Implement proper input validation and sanitization
+- [ ] Implement proper error handling
+
+
+
+
+-------
 A simple blockchain application that allows users to create, update, and delete blog posts. Only contains one custom x/ module, `blog`.
 
 ## Getting started
@@ -48,13 +108,6 @@ Starting from the `blog` directory:
 2. Initialize the genesis files with `make init`
 3. Start the chain with `blogd start --minimum-gas-prices=0stake`
 
-## Tasks
-
-1. The blog module does not show up in `blogd query` and `blogd tx` commands. Wire the blog module into the app so that it can be queried and transactions can be made.
-2. Whenever we create a new blog post, it overwrites an existing post. Fix this issue so that we can create multiple posts.
-3. Updating a post doesn't work as expected. Figure out why and fix it.
-4. Add a `created_at` and `last_updated_at` timestamp field to the blog post type, and update it with the current block time accordingly whenever a post is created or updated.
-5. Bonus: Implement a grant authorization mechanism where a post creator can allow other addresses to update or delete their post (e.g. Bob can update and delete Alice's blog posts).
 
 ## Useful commands
 
