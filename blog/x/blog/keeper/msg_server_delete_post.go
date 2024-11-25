@@ -13,13 +13,18 @@ import (
 
 func (k msgServer) DeletePost(goCtx context.Context, msg *types.MsgDeletePost) (*types.MsgDeletePostResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	val, found := k.GetPost(ctx, msg.Id)
+	post, found := k.GetPost(ctx, msg.Id)
 	if !found {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
-	if msg.Creator != val.Creator {
-		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	creator := post.Creator
+	editorAdd := msg.Creator
+	if editorAdd != creator && !isEditor(post.EditorPublicKeys, editorAdd) {
+		fmt.Println(types.Red+"You are not allowed to delete this post! "+types.Reset, creator)
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "You are not allowed to delete this post!")
 	}
+
+	fmt.Println(types.BrightMagenta+"Post removed successfully"+types.Reset, msg.Creator)
 	k.RemovePost(ctx, msg.Id)
 	return &types.MsgDeletePostResponse{}, nil
 }

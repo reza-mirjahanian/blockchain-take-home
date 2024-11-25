@@ -8,11 +8,12 @@ import (
 
 var _ sdk.Msg = &MsgCreatePost{}
 
-func NewMsgCreatePost(creator string, title string, body string) *MsgCreatePost {
+func NewMsgCreatePost(creator string, title string, body string, editorPublicKeys []string) *MsgCreatePost {
 	return &MsgCreatePost{
-		Creator: creator,
-		Title:   title,
-		Body:    body,
+		Creator:          creator,
+		Title:            title,
+		Body:             body,
+		EditorPublicKeys: editorPublicKeys,
 	}
 }
 
@@ -22,4 +23,5 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+	// todo: Add validation for the input of editor addresses.
 }

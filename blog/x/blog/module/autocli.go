@@ -44,9 +44,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "CreatePost",
-					Use:            "create-post [title] [body]",
+					Use:            "create-post [title] [body] [editorPublicKeys]",
 					Short:          "Send a create-post tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "body"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "body"}, {ProtoField: "editor_public_keys", Optional: true}},
 				},
 				{
 					RpcMethod:      "UpdatePost",

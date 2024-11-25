@@ -17,10 +17,12 @@ $BLOGD_BIN config set client chain-id blog
 $BLOGD_BIN config set client keyring-backend test
 $BLOGD_BIN keys add alice
 $BLOGD_BIN keys add bob
+$BLOGD_BIN keys add reza
 $BLOGD_BIN init test --chain-id blog --default-denom stake
 # update genesis
 $BLOGD_BIN genesis add-genesis-account alice 10000000stake --keyring-backend test
 $BLOGD_BIN genesis add-genesis-account bob 1000stake --keyring-backend test
+$BLOGD_BIN genesis add-genesis-account reza 1000stake --keyring-backend test
 # create default validator
 $BLOGD_BIN genesis gentx alice 1000000stake --chain-id blog
 $BLOGD_BIN genesis collect-gentxs
