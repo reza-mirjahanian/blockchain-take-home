@@ -243,6 +243,7 @@ func New(
 		&app.NFTKeeper,
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
+		&app.BlogKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
