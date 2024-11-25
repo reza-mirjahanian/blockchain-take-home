@@ -1,5 +1,43 @@
 # blockchain-take-home
+### Create 4 posts:
+```shell
+blogd tx blog create-post aliceTitle0 aliceBody0 $(blogd keys show reza -a),$(blogd keys show bob -a) --from alice -y --chain-id blog
+blogd tx blog create-post aliceTitle1 aliceBody1 --from alice -y --chain-id blog
+blogd tx blog create-post rezaTitle2 rezaBody2 --from reza -y --chain-id blog
+blogd tx blog create-post bobTitle3 bobBody3 $(blogd keys show reza -a) --from bob -y --chain-id blog
+```
+![img.png](demo/img.png)
 
+----------------------
+### Update 4 posts ( ❌ Third one is not allowed to update ):
+
+```shell
+  blogd tx blog update-post "aliceUpdatedT0" "aliceUpdatedB0" 0 --from alice -y --chain-id blog    
+  blogd tx blog update-post "aliceUpdatedByRezaT0" "aliceUpdatedByRezaB0" 0 --from reza -y  --chain-id blog   
+  blogd tx blog update-post "bobTitleUpdatedByBob3" "bobBodyUpdatedByBob3" 3 --from alice -y  --chain-id blog       
+  blogd tx blog update-post "bobTitleUpdatedByReza3" "bobBodyUpdatedByReza3" 3 --from reza  -y --chain-id blog   
+```
+![img_1.png](demo/img_1.png)
+
+![img_2.png](demo/img_2.png)
+
+----------------------
+### Delete 2 posts ( ❌ First one is not allowed to delete ):
+
+```shell
+  blogd tx blog delete-post 3 --from alice  -y --chain-id blog  
+  blogd tx blog delete-post 3 --from reza  -y --chain-id blog  
+```
+![img_3.png](demo/img_3.png)
+
+![img_4.png](demo/img_4.png)
+
+
+
+
+
+
+---------------
 A simple blockchain application that allows users to create, update, and delete blog posts. Only contains one custom x/ module, `blog`.
 
 ## Getting started
